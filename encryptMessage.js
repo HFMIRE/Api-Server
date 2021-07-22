@@ -1,43 +1,44 @@
-function encrypt(message, key) {
- const arrMessage =  Array.from(message); 
- let numMessage = ''; 
- for( let i = 0; i < arrMessage.length; i++ ) {
-      numMessage += (message.charCodeAt(i))
- }
- const arrKey =  Array.from(key);
- let numKey = []; 
- for( let i = 0; i < arrKey.length; i++ ) {
-    numKey += (key.charCodeAt(i))
- }
- const numKeyMessage = Number(numKey) + Number(numMessage)
- console.log( numMessage)
- console.log(numKey)
- console.log(numKeyMessage )
- return [numKeyMessage, numKey]
-} // === encrypted message
 
-// take in a message - turn that in that in to a interger 
-// key that message that tuen in messsage - 
-// add two interger together - making new encrypted message 
-function decrypt(encryptedMessage, key) {
- let  dMessage = encryptedMessage - key;
- console.log(dMessage) 
-//  let arrMessage = []
-//  for(let i = 0; i < 5; i++) {
-//     let newDMessage = String(dMessage).slice(i, i+2)
-//     arrMessage.push(newDMessage) 
-//  }
- const stringDecrypt = arrMessage.toString()
- console.log(stringDecrypt)
-//  let newDMessage = String(dMessage).slice(0, 2) 
-//  console.log(dMessage)
-// console.log(newDMessage)
- const decryptMessage = String.fromCharCode(dMessage)
- console.log(decryptMessage)
-} // message 
- 
-// passing a encrypted message  - as making into interger 
-// using key and taking away the message === message - console.log that 
+function encrypt(message, key) {
+    console.log(message)
+    console.log(key)
+    let encryptedMessage = ""
+
+    for(let i = 0; i < message.length; i++) {
+        let addition= charToNum(message[i]) + charToNum(key[i])
+        console.log(charToNum(key[i]))
+        let newKeyMessage = mod(addition, 26)
+        encryptedMessage += numToChar(newKeyMessage)
+    }
+    console.log(encryptedMessage, key)
+    return [encryptedMessage, key]
+}
+
+
+function decrypt(encrypted, key) {
+    console.log(encrypted)
+    console.log(key)
+    let plainText = ''
+    for(let i = 0; i < encrypted.length; i++) {
+        const difference  = charToNum(encrypted[i]) - charToNum(key[i])
+        console.log(difference)
+        const keyMessage = mod(difference, 26)
+        console.log(keyMessage)
+        plainText += numToChar(keyMessage)
+         
+    }
+    return plainText; 
+
+
+} 
+function charToNum(char) {
+    return char.charCodeAt(0) - 96;
+}
+
+function numToChar(num) {
+    return String.fromCharCode(num + 96);
+
+}
 
 function mod(x, y) {
     const remainder = x % y;
@@ -47,15 +48,17 @@ function mod(x, y) {
         return remainder;
     }
 }
- const [eMessage, key] = encrypt("HAT","MAT")
-console.log(eMessage, key)
-console.log(decrypt(eMessage, key))
-// const value = encrypt()
-// console.log(value(0))
+// const message = "cat"; 
+// const key = "asy"; 
+// const encrypted = encrypt(message, key) 
+// const key2 = encrypted[1]
+// const decrypted = decrypt(encrypted[0], key2)
+// console.log(decrypted)
 
 
-function stringToNumber() {
-
-}
-
-function numberTo
+const message = "hoda"; 
+const key = "fluff"; 
+const encrypted = encrypt(message, key) 
+const key3 = encrypted[1]
+const decrypted = decrypt(encrypted[0], key3)
+console.log(decrypted)
