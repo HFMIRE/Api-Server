@@ -1,6 +1,5 @@
-const app = require("./app");
+const app = require("./Airport");
 const request = require("supertest");
-const { response } = require("./app");
 
 describe("GET /airports", () => {
     test("can GET all the airports", (done) => {
@@ -25,6 +24,7 @@ describe('POST /airports', () => {
             .expect(200)
             .expect((response) => {
                 name: 'John Wicks Airport'
+                expect(response.body).toStrictEqual({name: 'John Wicks Airport'});
             })
             .end(done);
     });
@@ -49,6 +49,20 @@ describe('PUT /airports', () => {
             .expect(200)
             .expect((response) => {
                 name: 'John Wicks Airport'
+                expect(response.body).toStrictEqual({
+                      "name": "John Wicks Airport",
+                      "city": "Bushnell",
+                      "country": "US",
+                       "elevation": 53,
+                       "iata": "",
+                       "icao": "00FA",
+                       "lat": 28.6455001831,
+                       "lon": -82.21900177,
+                       "name": "Grass Patch Airport",
+                       "state": "Florida",
+                       "tz": "America/New_York",
+                      }
+                );
             })
             .end(done);
     });

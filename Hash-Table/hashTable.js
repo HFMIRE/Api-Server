@@ -1,4 +1,4 @@
-function hashStringToInt(s) {
+function keyToIndex(s) {
   let hash = 17; 
   for (let i = 0; i < s.length; i++ ) {
 
@@ -12,11 +12,11 @@ class HashTable {
     table = new Array(100)
 
     set = ((key, value) => {
-        const index = hashStringToInt(key)
+        const index = keyToIndex(key)
         this.table[index] = value 
     })   
     get = (key => {
-        const index = hashStringToInt(key)
+        const index = keyToIndex(key)
         return this.table[index]
     })
 }

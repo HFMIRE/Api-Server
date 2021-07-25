@@ -1,12 +1,15 @@
 const fs = require('fs');
 const crypto = require('crypto');
 
+// writeFileSync avoid the Sync versions of functions when possible - these don't exploit event-loop so exhibit blocking behaviour
+// your load function needs to set a value for this.file in the case where the file does exist
+
 class PasswordVault {
     constructor(path) {
         this.path = path;
         console.log(path)
     }
-    load = async() =>  {
+    load = async () =>  {
         if( fs.existsSync( this.path)) {
             try{
                 return fs.readFileSync(this.path, 'utf8')
@@ -14,13 +17,13 @@ class PasswordVault {
                   console.log(err)
               }
         } else {
-            this.file = []
+            this.credentialList = []
         }
 
     }
-    save = () => {
+    save = async () => {
         try {
-            fs.writeFileSync(this.path, JSON.stringify(this.file))
+            fs.writeFileSync(this.path, JSON.stringify(this.credentialList))
         } catch(err)  {
             console.error(err)
           }
@@ -30,7 +33,7 @@ class PasswordVault {
             const salt  = this.genSalt()
             const hashPassword = this.hash(password, salt)
             const userInformation = {username, salt, hashPassword}; 
-            this.file.push(userInformation)
+            this.credentialList.push(userInformation)
             await this.save(); 
         } catch (err) {
             console.log(err)
@@ -52,7 +55,7 @@ class PasswordVault {
 
     }
     genSalt = () => {
-        return crypto.randomBytes(6).toString('hex')
+        return crypto.randomBytes(8).toString('hex')
 
     }
     hash = (password, salt) => {
